@@ -1,0 +1,3 @@
+(1)Solve the problem of drawing line function on mobile phone
+(2)The problem of solution the Bluetooth interface is that you need to click "re-scan" to display Bluetooth
+(3)Add the unit "cm" to the ultrasonic display
