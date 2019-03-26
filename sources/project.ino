@@ -44,21 +44,36 @@ unsigned long measureDistance() {
 
 }
 
-// Dừng xe
-void stopMoving() {
-
+// Kiểm tra xem chuỗi khoảng cách thu được có ổn định không (không bị nhiễu)
+boolean checkStableDistance(unsigned long *distance) {
+  unsigned long sum = 0;
+  unsigned long avg = 0;
+  for(int i = 0; i < DISTANCE_ARR_LEN; i++){
+    if(i > 0 && distance[i] - avg > 50) return 0;
+    sum += distance[i];
+    avg = sum / (i+1);
+  }
+  return 1;
 }
 
+// Dừng xe
+void stopMoving() {
+  motor1.reverseRun(0);
+  motor2.reverseRun(0);
+}
+ 
 // Tiến lên trước
 // params: speed tốc độ quay của bánh xe (vòng/phút)
 void moveForward(int speed) {
-
+  motor1.reverseRun(speed);
+  motor2.reverseRun(speed);
 }
-
+ 
 // Lùi lại
 // params: speed tốc độ quay của bánh xe (vòng/phút)
 void moveBackward(int speed) {
-
+  motor1.reverseRun(-speed);
+  motor2.reverseRun(-speed);
 }
 
 // Xoay xe +-TURN_ANGLE độ để tìm kiếm vật
