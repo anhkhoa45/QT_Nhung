@@ -41,19 +41,33 @@ void loop()
 
 // Trả về khoảng cách tới vật gần nhất
 unsigned long measureDistance() {
-
-}
-
-// Kiểm tra xem chuỗi khoảng cách thu được có ổn định không (không bị nhiễu)
-boolean checkStableDistance(unsigned long *distance) {
-  unsigned long sum = 0;
-  unsigned long avg = 0;
+  unsigned long duration; // biến đo thời gian
+  unsigned long distances[DISTANCE_ARR_LEN];
+  unsigned long distance;           // biến lưu khoảng cách
+ 
   for(int i = 0; i < DISTANCE_ARR_LEN; i++){
-    if(i > 0 && distance[i] - avg > 50) return 0;
-    sum += distance[i];
-    avg = sum / (i+1);
+    /* Phát xung từ chân trig */
+    digitalWrite(TRIG, LOW);   // tắt chân trig
+    delayMicroseconds(2);
+    digitalWrite(TRIG, HIGH);   // phát xung từ chân trig
+    delayMicroseconds(10);   // xung có độ dài 5 microSeconds
+    digitalWrite(TRIG, LOW);   // tắt chân trig
+ 
+    /* Tính toán thời gian */
+    // Đo độ rộng xung HIGH ở chân echo.
+    duration = pulseIn(ECHO, HIGH);
+    // Tính khoảng cách đến vật.
+    distance = duration / 59;
+ 
+    distances[i] = distance;
   }
-  return 1;
+ 
+  if(!checkStableDistance(distances))  // Khử nhiễu
+    return measureDistance();
+ 
+  distance = distances[DISTANCE_ARR_LEN - 1];
+  matrixLed.showNum(0, distance);
+  return distance;
 }
 
 // Dừng xe
