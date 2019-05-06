@@ -24,7 +24,7 @@ void setup()
   pinMode(ECHO, INPUT);   // chân echo sẽ nhận tín hiệu
 }
  
-
+// Gọi liên tục hàm loop để đo khoảng cách tới vật và đưa ra chỉ dẫn cho Qbot
 void loop()
 {
   unsigned long distance = measureDistance();     // Đo khoảng cách tới vật phía trước
@@ -43,7 +43,6 @@ void loop()
     }
   }
 }
- 
  
 // Trả về khoảng cách tới vật gần nhất
 unsigned long measureDistance() {
@@ -75,7 +74,6 @@ unsigned long measureDistance() {
   matrixLed.showNum(0, distance);
   return distance;
 }
- 
 
 // Kiểm tra xem chuỗi khoảng cách thu được có ổn định không (không bị nhiễu)
 boolean checkStableDistance(unsigned long *distance) {
@@ -88,6 +86,7 @@ boolean checkStableDistance(unsigned long *distance) {
   }
   return 1;
 }
+
 // Dừng xe
 void stopMoving() {
   motor1.reverseRun(0);
@@ -107,8 +106,6 @@ void moveBackward(int speed) {
   motor1.reverseRun(-speed);
   motor2.reverseRun(-speed);
 }
- 
- 
 
 // Xoay xe +-TURN_ANGLE độ để tìm kiếm vật
 boolean detectObject() {  
