@@ -128,6 +128,7 @@ boolean detectObject() {
     if(measureDistance() < MAX_DETECTABLE_DISTANCE) return 1;
   }
  
+  // Không tìm thấy vật thể
   return 0;
 }
  
