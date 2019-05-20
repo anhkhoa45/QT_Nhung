@@ -1,4 +1,4 @@
-#include <Arduino.h>
+﻿#include <Arduino.h>
  
 #include <WMHead.h>
 #include <WMBoard.h>
@@ -43,27 +43,32 @@ void loop()
     }
   }
 }
+
+unsigned long getDistance() {
+  unsigned long duration; // biến đo thời gian
+  unsigned long distance;           // biến lưu khoảng cách
+  digitalWrite(TRIG, LOW);   // tắt chân trig
+  delayMicroseconds(2);
+  digitalWrite(TRIG, HIGH);   // phát xung từ chân trig
+  delayMicroseconds(10);   // xung có độ dài 5 microSeconds
+  digitalWrite(TRIG, LOW);   // tắt chân trig
+ 
+  /* Tính toán thời gian */
+  // Đo độ rộng xung HIGH ở chân echo.
+  duration = pulseIn(ECHO, HIGH);
+  // Tính khoảng cách đến vật.
+  distance = duration / 59;
+
+  return distance;
+}
  
 // Trả về khoảng cách tới vật gần nhất
 unsigned long measureDistance() {
-  unsigned long duration; // biến đo thời gian
   unsigned long distances[DISTANCE_ARR_LEN];
   unsigned long distance;           // biến lưu khoảng cách
  
   for(int i = 0; i < DISTANCE_ARR_LEN; i++){
-    /* Phát xung từ chân trig */
-    digitalWrite(TRIG, LOW);   // tắt chân trig
-    delayMicroseconds(2);
-    digitalWrite(TRIG, HIGH);   // phát xung từ chân trig
-    delayMicroseconds(10);   // xung có độ dài 5 microSeconds
-    digitalWrite(TRIG, LOW);   // tắt chân trig
- 
-    /* Tính toán thời gian */
-    // Đo độ rộng xung HIGH ở chân echo.
-    duration = pulseIn(ECHO, HIGH);
-    // Tính khoảng cách đến vật.
-    distance = duration / 59;
- 
+    distance = getDistance();
     distances[i] = distance;
   }
  
